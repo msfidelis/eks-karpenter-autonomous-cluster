@@ -68,3 +68,15 @@ variable "karpenter_cpu_limit" {
 variable "karpenter_memory_limit" {
   default = "4000Gi"
 }
+
+variable "addon_coredns_version" {
+  default =  "v1.8.7-eksbuild.1"
+}
+
+variable "addon_kubeproxy_version" {
+  default = "v1.20.4-eksbuild.2"
+}
+
+variable "addon_cni_version" {
+  default = "v1.11.2-eksbuild.1"
+}
