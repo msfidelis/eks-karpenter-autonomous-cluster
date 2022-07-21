@@ -83,29 +83,3 @@ def handler(event, _):
     endpoint = event.get("endpoint")
 
     fix(endpoint, token, 5)
- 
-    # url = f"{endpoint}/apis/apps/v1/namespaces/kube-system/deployments/coredns"
-    # headers = {
-    #     "Authorization": f"Bearer {token}",
-    #     "Accept": "application/json",
-    #     "Content-Type": "application/strategic-merge-patch+json",
-    # }
- 
-    # try:
-    #     # force coredns to launch in fargate by deleting the eks.amazonaws.com/compute-type label
-    #     patch_payload = build_patch_payload(
-    #         {"$patch": "delete", "eks.amazonaws.com/compute-type": "ec2"}
-    #     )
-    #     logging.info("Patch Request: %s", patch_payload)
-    #     patch_response = patch_coredns_service(url, headers, patch_payload)
-    #     logging.info("Patch Response: %s", patch_response)
- 
-    #     # force coredns service restart to apply changes
-    #     restart_payload = build_patch_body(
-    #         {"kubectl.kubernetes.io/restartedAt": datetime.utcnow().isoformat()}
-    #     )
-    #     logging.info("Restart Request: %s", restart_payload)
-    #     restart_response = patch_coredns_service(url, headers, restart_payload)
-    #     logging.info("Restart Response: %s", restart_response)
-    # except urllib.error.HTTPError as e:
-    #     logger.error("Request Error: %s", e)
