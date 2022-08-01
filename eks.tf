@@ -32,8 +32,6 @@ resource "aws_eks_cluster" "eks_cluster" {
 
   tags = {
     "kubernetes.io/cluster/${var.cluster_name}"     = "shared"
-    "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned",
-    "k8s.io/cluster-autoscaler/enabled"             = true
   }
 
 }
