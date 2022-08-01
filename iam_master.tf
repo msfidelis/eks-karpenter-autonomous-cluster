@@ -12,8 +12,7 @@ data "aws_iam_policy_document" "eks_cluster_role" {
     principals {
       type = "Service"
       identifiers = [
-        "eks.amazonaws.com",
-        "eks-fargate-pods.amazonaws.com"
+        "eks.amazonaws.com"
       ]
     }
 

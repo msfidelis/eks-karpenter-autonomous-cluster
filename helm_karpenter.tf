@@ -1,8 +1,3 @@
-resource "aws_iam_instance_profile" "karpenter" {
-  name = "KarpenterNodeInstanceProfile-${var.cluster_name}"
-  role = aws_iam_role.eks_nodes_roles.name
-}
-
 resource "aws_eks_fargate_profile" "karpenter" {
   cluster_name           = aws_eks_cluster.eks_cluster.name
   fargate_profile_name   = "karpenter"
@@ -49,7 +44,7 @@ resource "helm_release" "karpenter" {
 
     set {
         name  = "aws.defaultInstanceProfile"
-        value = aws_iam_instance_profile.karpenter.name
+        value = aws_iam_instance_profile.nodes.name
     }
 
     depends_on = [

@@ -26,6 +26,6 @@ resource "aws_launch_template" "main" {
   user_data = base64encode(data.template_file.user_data.rendered)
 
     iam_instance_profile {
-     name = aws_iam_instance_profile.karpenter.name
+     name = aws_iam_instance_profile.nodes.name
     }
 }

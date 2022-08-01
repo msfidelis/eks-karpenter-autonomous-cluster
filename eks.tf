@@ -7,10 +7,6 @@ resource "aws_eks_cluster" "eks_cluster" {
 
   vpc_config {
 
-    # security_group_ids = [
-    #   aws_security_group.cluster_eks_sg.id,
-    # ]
-
     subnet_ids = [
       aws_subnet.private_subnet_1a.id,
       aws_subnet.private_subnet_1b.id,
@@ -31,7 +27,8 @@ resource "aws_eks_cluster" "eks_cluster" {
   ]
 
   tags = {
-    "kubernetes.io/cluster/${var.cluster_name}"     = "shared"
+    "kubernetes.io/cluster/${var.cluster_name}"     = "shared",
+    "karpenter.sh/discovery"                        = var.cluster_name
   }
 
 }

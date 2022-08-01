@@ -73,6 +73,11 @@ data "aws_iam_policy_document" "csi_driver" {
 
 }
 
+resource "aws_iam_instance_profile" "nodes" {
+  name = "${var.cluster_name}-instance-profile"
+  role = aws_iam_role.eks_nodes_roles.name
+}
+
 resource "aws_iam_policy" "csi_driver" {
   name        = format("%s-csi-driver", var.cluster_name)
   path        = "/"

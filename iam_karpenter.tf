@@ -79,7 +79,7 @@ resource "aws_iam_policy" "karpenter_policy" {
 }
 
 resource "aws_iam_policy_attachment" "karpenter_policy" {
-    name       = "cluster_autoscaler"
+    name       = "karpenter"
     roles      = [ 
       aws_iam_role.karpenter_role.name
     ]
