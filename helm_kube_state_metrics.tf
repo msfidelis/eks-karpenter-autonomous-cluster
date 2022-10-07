@@ -10,6 +10,16 @@ resource "helm_release" "kube_state_metrics" {
     value = "true"
   }
 
+  set {
+    name  = "metricLabelsAllowlist[0]"
+    value = "nodes=[*]"
+  }
+
+  set {
+    name  = "metricAnnotationsAllowList[0]"
+    value = "nodes=[*]"
+  }
+
   depends_on = [
     aws_eks_cluster.eks_cluster,
     kubernetes_config_map.aws-auth,

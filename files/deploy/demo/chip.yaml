@@ -28,6 +28,15 @@ spec:
         name: chip
         version: v1
     spec:
+      topologySpreadConstraints:
+        - maxSkew: 2
+          topologyKey: "topology.kubernetes.io/zone"
+          whenUnsatisfiable: ScheduleAnyway
+
+        - maxSkew: 1
+          topologyKey: "beta.kubernetes.io/instance-type"
+          whenUnsatisfiable: ScheduleAnyway
+
       containers:
       - name: chip
         image: fidelissauro/chip:v1
