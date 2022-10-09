@@ -6,7 +6,7 @@ metadata:
 spec:
   subnetSelector:
     karpenter.sh/discovery: eks-cluster
-  launchTemplate: eks-e8c16341-c173-b1eb-131c-c0f26814830c
+  launchTemplate: eks-6ec1de38-fc95-05b6-c1e1-1dd86c889258
 ---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
@@ -14,23 +14,26 @@ metadata:
   name: eks-cluster
 spec:
   requirements:
-    - key: karpenter.k8s.aws/instance-family
+
+    # Especificação dos tipos de instância
+    - key: node.kubernetes.io/instance-type
       operator: In
-      values: [c5]  
-    - key: karpenter.k8s.aws/instance-size
-      operator: In
-      values: [large]
+      values: [c5.large, c5.xlarge, c5.2xlarge, r5.large, r5.xlarge, r5.2xlarge]  
+
+    # Especificação das zonas de disponibilidade  
     - key: "topology.kubernetes.io/zone" 
       operator: In
       values: ["us-east-1a", "us-east-1b", "us-east-1c"]  
+
+    # Especificação dos tipos de capacity
     - key: karpenter.sh/capacity-type        
       operator: In
-      values: ["spot"]      
-
+      values: ["spot", "on-demand"]     
+      
   limits:
     resources:
       cpu: 100         
-      memory: 4000Gi
+      memory: 400Gi
   providerRef:               
     name: default
   ttlSecondsAfterEmpty: 30

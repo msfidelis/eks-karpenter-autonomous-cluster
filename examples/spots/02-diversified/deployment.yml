@@ -14,6 +14,7 @@ metadata:
   namespace: chip
 spec:
   replicas: 2
+
   selector:
     matchLabels:
       app: chip
@@ -28,6 +29,22 @@ spec:
         name: chip
         version: v1
     spec:
+
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "topology.kubernetes.io/zone"
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: chip
+
+        - maxSkew: 1
+          topologyKey: "node.kubernetes.io/instance-type"
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: chip
+
       containers:
       - name: chip
         image: fidelissauro/chip:v1
@@ -38,34 +55,6 @@ spec:
           requests:
             cpu: 250m
             memory: 512m
-        startupProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /readiness
-            port: 8080
-          periodSeconds: 10
-        livenessProbe:
-          failureThreshold: 10
-          httpGet:
-            httpHeaders:
-            - name: Custom-Header
-              value: Awesome
-            path: /liveness
-            port: 8080
-          periodSeconds: 10
-        env:
-        - name: CHAOS_MONKEY_ENABLED
-          value: "false"
-        - name: CHAOS_MONKEY_MODE
-          value: "critical"
-        - name: CHAOS_MONKEY_LATENCY
-          value: "true"
-        - name: CHAOS_MONKEY_EXCEPTION
-          value: "true"
-        - name: CHAOS_MONKEY_APP_KILLER
-          value: "true"
-        - name: CHAOS_MONKEY_MEMORY
-          value: "true"
       terminationGracePeriodSeconds: 60
 ---
 apiVersion: v1

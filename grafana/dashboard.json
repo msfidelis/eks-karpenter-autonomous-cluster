@@ -17,7 +17,7 @@
   "gnetId": 8588,
   "graphTooltip": 0,
   "id": 8,
-  "iteration": 1665106656394,
+  "iteration": 1665257758102,
   "links": [],
   "panels": [
     {
@@ -855,6 +855,119 @@
         "y": 8
       },
       "hiddenSeries": false,
+      "id": 17,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.2.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(max(kube_deployment_status_replicas{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\", namespace=\"chip\"}) without (instance, pod))",
+          "interval": "",
+          "legendFormat": "Current",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(min(kube_deployment_status_replicas_available{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\", namespace=\"chip\"}) without (instance, pod))",
+          "interval": "",
+          "legendFormat": "Available",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(max(kube_deployment_status_replicas_unavailable{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\", namespace=\"chip\"}) without (instance, pod))",
+          "interval": "",
+          "legendFormat": "Unavailable",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(max(kube_deployment_spec_replicas{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\", namespace=\"chip\"}) without (instance, pod))",
+          "interval": "",
+          "legendFormat": "Desired",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Pods",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "hiddenSeries": false,
       "id": 18,
       "legend": {
         "alignAsTable": false,
@@ -885,7 +998,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(kube_node_labels) by (label_failure_domain_beta_kubernetes_io_zone)",
+          "expr": "sum(kube_node_labels{label_beta_kubernetes_io_instance_type!=\"t3.large\"}) by (label_failure_domain_beta_kubernetes_io_zone)",
           "interval": "",
           "legendFormat": "{{ label_failure_domain_beta_kubernetes_io_zone }}",
           "refId": "A"
@@ -950,7 +1063,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 28
       },
       "hiddenSeries": false,
       "id": 19,
@@ -983,107 +1096,9 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(kube_node_labels) by (label_beta_kubernetes_io_instance_type)",
+          "expr": "sum(kube_node_labels{label_beta_kubernetes_io_instance_type!=\"t3.large\"}) by (label_beta_kubernetes_io_instance_type)",
           "interval": "",
           "legendFormat": "{{ label_beta_kubernetes_io_instance_type }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Nodes - Instance Type",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 28
-      },
-      "hiddenSeries": false,
-      "id": 20,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.2.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": true,
-      "targets": [
-        {
-          "expr": "sum(kube_node_labels) by (label_eks_amazonaws_com_capacity_type)",
-          "interval": "",
-          "legendFormat": "{{ label_eks_amazonaws_com_capacity_type }}",
           "refId": "A"
         }
       ],
@@ -1149,19 +1164,22 @@
         "y": 38
       },
       "hiddenSeries": false,
-      "id": 17,
+      "id": 20,
       "legend": {
+        "alignAsTable": false,
         "avg": false,
-        "current": false,
+        "current": true,
+        "hideEmpty": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "alertThreshold": true
       },
@@ -1173,38 +1191,20 @@
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
-      "steppedLine": false,
+      "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(max(kube_deployment_status_replicas{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\"}) without (instance, pod))",
+          "expr": "sum(kube_node_labels{label_beta_kubernetes_io_instance_type!=\"t3.large\"}) by (label_karpenter_sh_capacity_type)",
           "interval": "",
-          "legendFormat": "Current",
+          "legendFormat": "{{ label_karpenter_sh_capacity_type }}",
           "refId": "A"
-        },
-        {
-          "expr": "sum(min(kube_deployment_status_replicas_available{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\"}) without (instance, pod))",
-          "interval": "",
-          "legendFormat": "Available",
-          "refId": "B"
-        },
-        {
-          "expr": "sum(max(kube_deployment_status_replicas_unavailable{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\"}) without (instance, pod))",
-          "interval": "",
-          "legendFormat": "Unavailable",
-          "refId": "C"
-        },
-        {
-          "expr": "sum(max(kube_deployment_spec_replicas{deployment=~\"^$Deployment$Statefulset$Daemonset.*$\"}) without (instance, pod))",
-          "interval": "",
-          "legendFormat": "Desired",
-          "refId": "D"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Pods",
+      "title": "Nodes - Instance Type",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1734,7 +1734,7 @@
       }
     }
   ],
-  "refresh": "30s",
+  "refresh": false,
   "schemaVersion": 26,
   "style": "dark",
   "tags": [
@@ -1850,8 +1850,8 @@
     ]
   },
   "time": {
-    "from": "now-15m",
-    "to": "now"
+    "from": "2022-10-08T19:55:39.400Z",
+    "to": "2022-10-08T19:57:58.298Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -1881,5 +1881,5 @@
   "timezone": "browser",
   "title": "Kubernetes - Capacity Karpenter",
   "uid": "oWe9aYxmk",
-  "version": 2
+  "version": 1
 }
