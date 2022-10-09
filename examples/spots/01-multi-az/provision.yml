@@ -1,0 +1,36 @@
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: default
+spec:
+  subnetSelector:
+    karpenter.sh/discovery: eks-cluster
+  launchTemplate: eks-6ec1de38-fc95-05b6-c1e1-1dd86c889258
+---
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: eks-cluster
+spec:
+  requirements:
+    - key: node.kubernetes.io/instance-type
+      operator: In
+      values: [c5.large]  
+
+    - key: karpenter.sh/capacity-type        
+      operator: In
+      values: ["spot"]
+
+    # Especificação das zonas de disponibilidade  
+    - key: "topology.kubernetes.io/zone" 
+      operator: In
+      values: ["us-east-1a", "us-east-1b", "us-east-1c"]  
+      
+  limits:
+    resources:
+      cpu: 100         
+      memory: 400Gi
+  providerRef:               
+    name: default
+  ttlSecondsAfterEmpty: 30
