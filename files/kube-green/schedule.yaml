@@ -1,0 +1,15 @@
+apiVersion: kube-green.com/v1alpha1
+kind: SleepInfo
+metadata:
+  name: working-hours
+  namespace: chip
+spec:
+  weekdays: "1-5"
+  sleepAt: "13:33"
+  wakeUpAt: "13:38s"
+  timeZone: "America/Sao_Paulo"
+  suspendCronJobs: true
+  excludeRef:
+    - apiVersion: "apps/v1"
+      kind:       Deployment
+      name:       karpenter
