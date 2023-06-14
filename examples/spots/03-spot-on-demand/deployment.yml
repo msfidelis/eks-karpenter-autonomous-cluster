@@ -61,7 +61,7 @@ spec:
         resources:
           requests:
             cpu: 250m
-            memory: 512m
+            memory: 512
       terminationGracePeriodSeconds: 60
 ---
 apiVersion: v1
