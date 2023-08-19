@@ -1,0 +1,29 @@
+prometheus:
+  # additionalScrapeConfigs:
+  #   enabled: true
+  #   type: external
+  #   external:
+  #     name: additional-scrape-configs
+  #     key: scrape_configs.yaml
+  prometheusSpec:
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    podMonitorNamespaceSelector:
+      any: true
+    podMonitorSelector: {}
+    ruleNamespaceSelector:
+      any: true
+    ruleSelector: {}
+    serviceMonitorNamespaceSelector:
+      any: true
+    serviceMonitorSelector: {}
+
+prometheusOperator:
+  enabled: true
+  namespaces: ''
+  denyNamespaces: ''
+  prometheusInstanceNamespaces: ''
+  alertmanagerInstanceNamespaces: ''
+  thanosRulerInstanceNamespaces: ''
