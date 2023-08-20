@@ -23,7 +23,6 @@ resource "aws_launch_template" "main" {
     aws_eks_cluster.eks_cluster.vpc_config[0].cluster_security_group_id
   ]
 
-  # user_data = base64encode(data.template_file.user_data.rendered)
   user_data = base64encode(templatefile(
     "${path.module}/files/user-data/userdata.tpl",
     {
@@ -36,5 +35,14 @@ resource "aws_launch_template" "main" {
 
   iam_instance_profile {
     name = aws_iam_instance_profile.nodes.name
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      "Name" : var.cluster_name,
+      "aws-node-termination-handler/managed" = "true"
+    }
   }
 }

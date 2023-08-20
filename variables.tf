@@ -13,7 +13,7 @@ variable "aws_region" {
 variable "k8s_version" {
   type        = string
   description = "Default Kubernetes Version"
-  default     = "1.24"
+  default     = "1.27"
 }
 
 variable "default_tags" {
@@ -80,17 +80,17 @@ variable "karpenter_memory_limit" {
 variable "addon_coredns_version" {
   type        = string
   description = "CoreDNS addon version"
-  default     =  "v1.9.3-eksbuild.3"
+  default     = "v1.10.1-eksbuild.2"
 }
 
 variable "addon_kubeproxy_version" {
   type        = string
   description = "KubeProxy addon version"  
-  default     = "v1.24.10-eksbuild.2"
+  default     = "v1.27.3-eksbuild.2"
 }
 
 variable "addon_cni_version" {
   type        = string
   description = "VPC CNI addon version"  
-  default     = "v1.12.6-eksbuild.2"
+  default     = "v1.12.6-eksbuild.1"
 }
