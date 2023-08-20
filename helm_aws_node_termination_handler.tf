@@ -1,20 +1,31 @@
-# resource "helm_release" "node_termination_handler" {
-#   name = "aws-node-termination-handler"
+resource "helm_release" "node_termination_handler" {
+  name      = "aws-node-termination-handler"
+  namespace = "kube-system"
 
-#   chart     = "./charts/aws-node-termination-handler"
-#   namespace = "kube-system"
+  chart      = "aws-node-termination-handler"
+  repository = "https://aws.github.io/eks-charts/"
+  version    = "0.21.0"
 
-#   #   set {
-#   #     name  = "apiService.create"
-#   #     value = "true"
-#   #   }
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = aws_iam_role.aws_node_termination_handler_role.arn
+  }
 
-#   depends_on = [
-#     aws_eks_cluster.eks_cluster,
-#     kubernetes_config_map.aws-auth,
-#     aws_eks_fargate_profile.kube_system
-#   ]
-# }
+  set {
+    name  = "awsRegion"
+    value = var.aws_region
+  }
+
+  set {
+    name  = "queueURL"
+    value = aws_sqs_queue.node_termination_handler.url
+  }
+
+  set {
+    name  = "enableSqsTerminationDraining"
+    value = true
+  }
+}
 
 resource "aws_sqs_queue" "node_termination_handler" {
   name                       = format("%s-aws-node-termination-handler", var.cluster_name)
@@ -51,7 +62,7 @@ resource "aws_cloudwatch_event_rule" "node_termination_handler_instance_terminat
   description = var.cluster_name
 
   event_pattern = jsonencode({
-    source = [ "aws.autoscaling" ]
+    source = ["aws.autoscaling"]
     detail-type = [
       "EC2 Instance-terminate Lifecycle Action"
     ]
@@ -70,17 +81,17 @@ resource "aws_cloudwatch_event_rule" "node_termination_handler_scheduled_change"
   description = var.cluster_name
 
   event_pattern = jsonencode({
-    source = [ "aws.health" ]
+    source = ["aws.health"]
     detail-type = [
       "AWS Health Event"
     ]
     detail = {
-        service = [
-            "EC2"
-        ]
-        eventTypeCategory = [
-            "scheduledChange"
-        ]
+      service = [
+        "EC2"
+      ]
+      eventTypeCategory = [
+        "scheduledChange"
+      ]
     }
   })
 }
@@ -96,7 +107,7 @@ resource "aws_cloudwatch_event_rule" "node_termination_handler_spot_termination"
   description = var.cluster_name
 
   event_pattern = jsonencode({
-    source = [ "aws.ec2" ]
+    source = ["aws.ec2"]
     detail-type = [
       "EC2 Spot Instance Interruption Warning"
     ]
@@ -115,7 +126,7 @@ resource "aws_cloudwatch_event_rule" "node_termination_handler_rebalance" {
   description = var.cluster_name
 
   event_pattern = jsonencode({
-    source = [ "aws.ec2" ]
+    source = ["aws.ec2"]
     detail-type = [
       "EC2 Instance Rebalance Recommendation"
     ]
@@ -134,7 +145,7 @@ resource "aws_cloudwatch_event_rule" "node_termination_handler_state_change" {
   description = var.cluster_name
 
   event_pattern = jsonencode({
-    source = [ "aws.ec2" ]
+    source = ["aws.ec2"]
     detail-type = [
       "EC2 Instance State-change Notification"
     ]

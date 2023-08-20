@@ -18,6 +18,11 @@ resource "helm_release" "cert" {
     }
 
     set {
+        name  = "webhook.securePort"
+        value = 10260
+    }
+    
+    set {
         name  = "webhook.timeoutSeconds"
         value = 10
     }
@@ -25,7 +30,7 @@ resource "helm_release" "cert" {
     depends_on = [
         aws_eks_cluster.eks_cluster,
         kubernetes_config_map.aws-auth,
-        aws_eks_fargate_profile.karpenter
+        aws_eks_fargate_profile.cert_manager
     ]
 
 }
