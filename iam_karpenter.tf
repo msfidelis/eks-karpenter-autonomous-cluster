@@ -42,10 +42,25 @@ data "aws_iam_policy_document" "karpenter_policy" {
             "ec2:DescribeInstanceTypeOfferings",
             "ec2:DescribeAvailabilityZones",
             "ec2:DescribeSpotPriceHistory",
+            "ec2:DescribeImages",
             "pricing:GetProducts",
             "ec2:RunInstances",
             "ssm:GetParameter",
-            "iam:PassRole"
+            "iam:PassRole",
+            "iam:GetInstanceProfile",
+            "iam:CreateInstanceProfile",
+            "iam:TagInstanceProfile",
+            "iam:AddRoleToInstanceProfile",
+            "iam:DeleteInstanceProfile",
+            "autoscaling:CompleteLifecycleAction",
+            "autoscaling:DescribeAutoScalingInstances",
+            "autoscaling:DescribeTags",
+            "ec2:DescribeInstances",
+            "sqs:DeleteMessage",
+            "sqs:ReceiveMessage",
+            "sqs:GetQueueAttributes",
+            "sqs:GetQueueUrl",            
+            "eks:DescribeCluster"           
         ]
 
         resources = [ 

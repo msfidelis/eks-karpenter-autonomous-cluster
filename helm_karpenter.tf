@@ -23,9 +23,9 @@ resource "helm_release" "karpenter" {
     create_namespace = true
 
     name       = "karpenter"
-    repository = "https://charts.karpenter.sh"
+    repository = "oci://public.ecr.aws/karpenter"
     chart      = "karpenter"
-    version    = "v0.15.0"
+    version    = "v0.32.1"
 
     set {
         name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
@@ -33,8 +33,13 @@ resource "helm_release" "karpenter" {
     }
 
     set {
-        name  = "clusterName"
+        name  = "settings.clusterName"
         value = var.cluster_name
+    }
+
+    set {
+        name  = "settings.interruptionQueue"
+        value = aws_sqs_queue.karpenter.name
     }
 
     set {

@@ -6,7 +6,7 @@ metadata:
 spec:
   subnetSelector:
     karpenter.sh/discovery: eks-cluster
-  launchTemplate: eks-00c1dc76-0882-6183-7219-e187853a81ee 
+  # launchTemplate: eks-00c1dc76-0882-6183-7219-e187853a81ee 
 ---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
