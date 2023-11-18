@@ -1,0 +1,30 @@
+---
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: eks-cluster
+spec:
+  requirements:
+
+    # Especificação dos tipos de instância
+    - key: node.kubernetes.io/instance-type
+      operator: In
+      values: [c5.large, c5.xlarge, c5.2xlarge, r5.large, r5.xlarge, r5.2xlarge]  
+
+    # Especificação das zonas de disponibilidade  
+    - key: "topology.kubernetes.io/zone" 
+      operator: In
+      values: ["us-east-1a", "us-east-1b", "us-east-1c"]  
+
+    # Especificação dos tipos de capacity
+    - key: karpenter.sh/capacity-type        
+      operator: In
+      values: ["spot", "on-demand"]     
+      
+  limits:
+    resources:
+      cpu: 100         
+      memory: 400Gi
+  providerRef:               
+    name: default
+  ttlSecondsAfterEmpty: 30

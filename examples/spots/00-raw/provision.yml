@@ -1,32 +1,32 @@
----
-apiVersion: karpenter.k8s.aws/v1alpha1
-kind: AWSNodeTemplate
-metadata:
-  name: default
-spec:
-  subnetSelector:
-    karpenter.sh/discovery: eks-cluster
-  # launchTemplate: eks-00c1dc76-0882-6183-7219-e187853a81ee 
----
-apiVersion: karpenter.sh/v1alpha5
-kind: Provisioner
-metadata:
-  name: eks-cluster
-spec:
-  requirements:
-    - key: karpenter.k8s.aws/instance-family
-      operator: In
-      values: [c5]  
-    - key: karpenter.k8s.aws/instance-size
-      operator: In
-      values: [large]
-    - key: karpenter.sh/capacity-type        
-      operator: In
-      values: ["spot"]      
-  limits:
-    resources:
-      cpu: 100         
-      memory: 400Gi
-  providerRef:               
-    name: default
-  ttlSecondsAfterEmpty: 30
+# ---
+# apiVersion: karpenter.k8s.aws/v1alpha1
+# kind: AWSNodeTemplate
+# metadata:
+#   name: default
+# spec:
+#   subnetSelector:
+#     karpenter.sh/discovery: eks-cluster
+#   # launchTemplate: eks-00c1dc76-0882-6183-7219-e187853a81ee 
+# ---
+# apiVersion: karpenter.sh/v1alpha5
+# kind: Provisioner
+# metadata:
+#   name: eks-cluster
+# spec:
+#   requirements:
+#     - key: karpenter.k8s.aws/instance-family
+#       operator: In
+#       values: [c5]  
+#     - key: karpenter.k8s.aws/instance-size
+#       operator: In
+#       values: [large]
+#     - key: karpenter.sh/capacity-type        
+#       operator: In
+#       values: ["spot"]      
+#   limits:
+#     resources:
+#       cpu: 100         
+#       memory: 400Gi
+#   providerRef:               
+#     name: default
+#   ttlSecondsAfterEmpty: 30
